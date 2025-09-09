@@ -1,4 +1,10 @@
+Based on the following tutorial:
+
 https://react.dev/learn
+
+To launch the local development server:
+
+npm run start
 
 React is a JavaScript library for building interactive user interfaces.
 React is a library which only takes care of rendering the view and making sure that the view is in sync with the state.
@@ -69,7 +75,7 @@ Execute the following:
 npm create vite@latest
 
 
-Don’t use npx create-react-app my-app because create-react-app is no longer supported.
+Don't use npx create-react-app my-app because create-react-app is no longer supported.
 
 
 An increasingly popular way of generating React apps is by using Vite because it is faster and gives us bundle sizes:
