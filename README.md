@@ -1,6 +1,8 @@
-Based on the following tutorial:
+Based on the following tutorials:
 
 https://react.dev/learn
+
+https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
 To launch the local development server:
 

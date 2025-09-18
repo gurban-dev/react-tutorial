@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
 // value and onSquareClick are props.
-// Props are read-only inputs passed from a parent component
-// to a child.
+// Props are read-only inputs passed from a parent
+// component to a child.
 // They let components share data and behavior.
 function Square({ value, onSquareClick }) {
   return (
@@ -17,17 +17,25 @@ function Square({ value, onSquareClick }) {
 
 function Board({ xIsNext, squares, onPlay }) {
   function handleClick(i) {
+    // i is the index of the square that was clicked.
     console.log(`Tile ${i} clicked.`);
 
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
+
+    // The JavaScript Array slice() method makes a shallow copy of an array.
+    // The copy is new, but its elements still reference the same objects.
+    // Mutating those objects also changes the original.
+
     const nextSquares = squares.slice();
+
     if (xIsNext) {
       nextSquares[i] = 'X';
     } else {
       nextSquares[i] = 'O';
     }
+
     onPlay(nextSquares);
   }
 
@@ -49,8 +57,13 @@ function Board({ xIsNext, squares, onPlay }) {
       <div className="status">{status}</div>
 
       <div className="board-row">
+        {/* Pass the handleClick() function to the onSquareClick
+            prop that belongs to the Square component. */}
         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
+
+        {/* The Square components are children of the Board component. */}
         <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
+
         <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
       </div>
 
@@ -69,18 +82,32 @@ function Board({ xIsNext, squares, onPlay }) {
   );
 }
 
-// Explain what preceding a component's name with export default.
-
+// Preceding a component's name with export default marks it
+// as the "main" value a JavaScript module chooses to expose.
 export default function Game() {
+  // The state variable "history" was lifted up into this Game component.
+  // This makes it possible for two child components to communicate with
+  // each other.
+
+  // The Board and Square child components are communicating with each
+  // other in this context.
   const [history, setHistory] = useState([Array(9).fill(null)]);
 
   const [currentMove, setCurrentMove] = useState(0);
   const xIsNext = currentMove % 2 === 0;
+
   const currentSquares = history[currentMove];
+
+  console.log('currentSquares: ' + currentSquares);
 
   function handlePlay(nextSquares) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+
+    // Calling the setHistory() function will trigger a re-render
+    // of the Board component and its children which are the Square
+    // components.
     setHistory(nextHistory);
+
     setCurrentMove(nextHistory.length - 1);
   }
 
@@ -105,6 +132,10 @@ export default function Game() {
   return (
     <div className="game">
       <div className="game-board">
+        {/* The best approach is to store the game's state
+            in the parent Board component instead of in each
+            Square. The Board component can tell each Square
+            what to display by passing a prop. */}
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
       </div>
       <div className="game-info">
@@ -125,11 +156,13 @@ function calculateWinner(squares) {
     [0, 4, 8],
     [2, 4, 6],
   ];
+
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
       return squares[a];
     }
   }
+
   return null;
 }
