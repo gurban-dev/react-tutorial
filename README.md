@@ -40,8 +40,9 @@ const [tasks, setTasks] = useState<Task[]>([]);
 
 setTasks(resFromGet.tasks);
 
-/*May output “tasks” as an empty array because state updates
-   in React are asynchronous or occur at different times.*/
+May output “tasks” as an empty array because state updates
+in React are asynchronous or occur at different times.
+
 console.log(‘tasks:’, tasks);
 
 Discuss how to output data with tick marks and JSON.stringify(data, null, 2).

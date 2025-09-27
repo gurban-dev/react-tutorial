@@ -24,10 +24,11 @@ function Board({ xIsNext, squares, onPlay }) {
       return;
     }
 
-    // The JavaScript Array slice() method makes a shallow copy of an array.
-    // The copy is new, but its elements still reference the same objects.
+    // The JavaScript Array slice() method makes a shallow
+    // copy of an array.
+    // The copy is new, but its elements still reference
+    // the same objects.
     // Mutating those objects also changes the original.
-
     const nextSquares = squares.slice();
 
     if (xIsNext) {
@@ -58,7 +59,10 @@ function Board({ xIsNext, squares, onPlay }) {
 
       <div className="board-row">
         {/* Pass the handleClick() function to the onSquareClick
-            prop that belongs to the Square component. */}
+            prop that belongs to the Square component.
+            
+            When the square is clicked, the code after the => "arrow"
+            will run, calling handleClick(0). */}
         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
 
         {/* The Square components are children of the Board component. */}
@@ -96,11 +100,39 @@ export default function Game() {
   const [currentMove, setCurrentMove] = useState(0);
   const xIsNext = currentMove % 2 === 0;
 
+  console.log('currentMove:', currentMove);
+
   const currentSquares = history[currentMove];
 
   console.log('currentSquares: ' + currentSquares);
 
   function handlePlay(nextSquares) {
+    console.log('...history.slice(0, currentMove + 1):', ...history.slice(0, currentMove + 1));
+
+    console.log('nextSquares:', nextSquares);
+
+    /* The .slice() method will make a shallow copy of all elements
+       from the beginning (0) up to (but not including) index
+       currentMove + 1.
+
+       This effectively discards any "future" moves that exist
+       after the current move.
+
+       E.g.
+       history = [a, b, c, d, e];
+       currentMove = 2;
+
+       // [a, b, c]
+       history.slice(0, currentMove + 1);
+
+       The spread operator (...) takes the resulting array and
+       expands its elements into the new array being constructed.
+
+       A new array (nextHistory) is created with:
+       All the sliced history up to the current move.
+
+       Plus the new nextSquares appended at the end.
+    */
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
 
     // Calling the setHistory() function will trigger a re-render
