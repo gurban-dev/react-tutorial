@@ -93,15 +93,39 @@ export default function Game() {
   // This makes it possible for two child components to communicate with
   // each other.
 
-  // The Board and Square child components are communicating with each
-  // other in this context.
+  // The Board and Square child components are communicating
+  // with each other in this context.
+
+  // Array(9).fill(null) creates an array with 9 elements,
+  // all null.
+
+  // Notice how two lines below, the array is enclosed
+  // inside another array:
+  // [Array(9).fill(null)]
+
+  /*
+  [
+    [null, null, null, null, null, null, null, null, null], // move 0
+    ['X', null, null, null, null, null, null, null, null],  // move 1
+    ['X', null, null, null, 'O', null, null, null, null],   // move 2
+    ...
+  ]
+  */
   const [history, setHistory] = useState([Array(9).fill(null)]);
 
+  // The state variable currentMove is needed so that the
+  // Game component can keep track of which step the user
+  // is currently viewing.
   const [currentMove, setCurrentMove] = useState(0);
+
+  // currentMove is an even number when X is being played
+  // and an odd number when O is being played.
   const xIsNext = currentMove % 2 === 0;
 
   console.log('currentMove:', currentMove);
 
+  // This way the Game component renders the currently
+  // selected move.
   const currentSquares = history[currentMove];
 
   console.log('currentSquares: ' + currentSquares);
@@ -144,16 +168,34 @@ export default function Game() {
   }
 
   function jumpTo(nextMove) {
+    console.log('nextMove:', nextMove);
+
     setCurrentMove(nextMove);
   }
 
+  console.log('history:', history);
+
   const moves = history.map((squares, move) => {
+    // squares is the current board state (each item in the history
+    // array).
+    // move is the index of the current item in history array.
+
+    // Array.prototype.map() always calls the callback like this:
+    // callback(currentElement, index, array)
+
+    // If you only wrote one parameter then move would receive the
+    // first argument, i.e. the board state rather than the index.
+
     let description;
+
     if (move > 0) {
       description = 'Go to move #' + move;
     } else {
       description = 'Go to game start';
     }
+
+    console.log('move:', move);
+
     return (
       <li key={move}>
         <button onClick={() => jumpTo(move)}>{description}</button>
