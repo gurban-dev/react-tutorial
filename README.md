@@ -4,7 +4,8 @@ https://react.dev/learn
 
 https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial
 
-To launch the local development server:
+cd into tic-tac-toe and execute the subsequent command
+to launch the local development server:
 
 npm run start
 

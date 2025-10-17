@@ -178,13 +178,16 @@ export default function Game() {
   const moves = history.map((squares, move) => {
     // squares is the current board state (each item in the history
     // array).
-    // move is the index of the current item in history array.
+    // "squares" is a two-dimensional array/nested array.
+
+    // move is the index of the current item in the "history" array.
 
     // Array.prototype.map() always calls the callback like this:
     // callback(currentElement, index, array)
 
-    // If you only wrote one parameter then move would receive the
-    // first argument, i.e. the board state rather than the index.
+    // If you only write one parameter then the "move"
+    // parameter would receive the first argument, i.e.
+    // the board state rather than the index.
 
     let description;
 
